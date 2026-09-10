@@ -1,0 +1,38 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+
+      - name: Install eBPF Build Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang llvm libbpf-dev
+
+      - name: Verify Go Dependencies
+        run: go mod verify
+
+      - name: Generate eBPF Bytecode
+        run: go generate ./...
+
+      - name: Build Scanner & Trace Agent Binaries
+        run: |
+          go build -v -o bin/ndepa-scan ./cmd/ndepa-scan
+          go build -v -o bin/ndepa-trace-agent ./cmd/ndepa-trace-agent
+
+      - name: Run Unit Tests
+        run: go test -v ./...

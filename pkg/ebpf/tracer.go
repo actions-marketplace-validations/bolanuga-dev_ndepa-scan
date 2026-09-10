@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net"
 
+        "github.com/cilium/ebpf/link"
 	"github.com/cilium/ebpf/ringbuf"
 	"github.com/cilium/ebpf/rlimit"
 )
@@ -30,6 +31,13 @@ func RunTracer() error {
 		return fmt.Errorf("loading objects: %w", err)
 	}
 	defer objs.Close()
+
+        // Attach eBPF program to kernel tracepoint
+        kp, err := link.Tracepoint("syscalls", "sys_enter_connect", objs.TraceConnect, nil)
+        if err != nil {
+                return fmt.Errorf("opening tracepoint: %w", err)
+        }
+        defer kp.Close()
 
 	// Open ring buffer reader
 	rd, err := ringbuf.NewReader(objs.Events)

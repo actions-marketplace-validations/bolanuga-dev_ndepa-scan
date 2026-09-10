@@ -1,0 +1,12 @@
+[
+  {
+    "timestamp": "2026-09-12T20:00:00Z",
+    "pod_name": "payment-service-75b4f49488-x2k9l",
+    "namespace": "default",
+    "dest_ip": "198.51.100.45",
+    "dest_port": 443,
+    "protocol": "TCP",
+    "process_name": "curl",
+    "action": "FLAGGED"
+  }
+]
