@@ -15,16 +15,6 @@ builds:
     env:
       - CGO_ENABLED=1
 
-  - id: ndepa-trace-agent
-    main: ./cmd/ndepa-trace-agent
-    binary: ndepa-trace-agent
-    goos:
-      - linux
-    goarch:
-      - amd64
-    env:
-      - CGO_ENABLED=1
-
 archives:
   - format: tar.gz
     name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
