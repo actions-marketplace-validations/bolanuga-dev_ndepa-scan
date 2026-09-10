@@ -1,9 +1,8 @@
-version: 2
+version: 1
 
 before:
   hooks:
     - go mod tidy
-    - go generate ./...
 
 builds:
   - id: ndepa-scan
@@ -13,7 +12,6 @@ builds:
       - linux
     goarch:
       - amd64
-      - arm64
     env:
       - CGO_ENABLED=1
 
@@ -24,7 +22,6 @@ builds:
       - linux
     goarch:
       - amd64
-      - arm64
     env:
       - CGO_ENABLED=1
 
