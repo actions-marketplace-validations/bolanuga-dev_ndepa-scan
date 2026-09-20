@@ -1,2 +1,24 @@
 /ndepa-scan
 *.exe
+
+# Binaries
+bin/
+minikube-linux-amd64
+
+# Test & CAR Output Artifacts
+car-output/
+*.json
+*.sarif
+*.pdf
+*.zip
+
+# Large Binaries
+minikube-linux-amd64
+bin/
+
+# Evidence & Test Output Artifacts
+car-output/
+*.json
+*.sarif
+*.pdf
+*.zip

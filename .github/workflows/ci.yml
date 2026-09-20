@@ -1,18 +1,17 @@
-name: Release Binaries
+name: CI Pipeline
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
-  goreleaser:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Set up Go
         uses: actions/setup-go@v5
@@ -26,15 +25,18 @@ jobs:
           go install github.com/cilium/ebpf/cmd/bpf2go@latest
           echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
 
+      - name: Verify Go Dependencies
+        run: go mod verify
+
       - name: Generate eBPF Bytecode
         run: go generate ./...
 
-      - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v5
-        with:
-          distribution: goreleaser
-          version: latest
-          args: release --clean --skip=validate
+      - name: Run Go Tests
+        run: go test -v ./...
+
+      - name: Build Binaries
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CGO_ENABLED: 1
+        run: |
+          go build -v -o bin/ndepa-scan ./cmd/ndepa-scan
+          go build -v -o bin/ndepa-trace-agent ./cmd/ndepa-trace-agent

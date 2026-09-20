@@ -63,7 +63,7 @@ var rootCmd = &cobra.Command{
 		}
 		// 3. Prepare Rego evaluation options
 		var regoOptions []func(*rego.Rego)
-		regoOptions = append(regoOptions, rego.Query("data.ndepa.policies"))
+		regoOptions = append(regoOptions, rego.Query("data.ndepa.policies.deny"))
 
 
 

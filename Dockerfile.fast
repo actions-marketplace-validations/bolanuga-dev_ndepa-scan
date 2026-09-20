@@ -1,0 +1,6 @@
+FROM alpine:3.19
+RUN apk add --no-cache ca-certificates libbpf elfutils-dev
+WORKDIR /app
+COPY ndepa-scan /usr/local/bin/ndepa-scan
+ENTRYPOINT ["/usr/local/bin/ndepa-scan"]
+CMD ["trace"]

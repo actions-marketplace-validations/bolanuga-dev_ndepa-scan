@@ -1,0 +1,9 @@
+[
+  {
+    "rule_id": "NDEPA-K8S-001",
+    "severity": "HIGH",
+    "description": "Container running with unconfined security context",
+    "resource": "pod/payment-service-75b4f49488-x2k9l",
+    "line": 14
+  }
+]
